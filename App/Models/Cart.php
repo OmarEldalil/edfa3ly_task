@@ -18,12 +18,14 @@ class Cart
     private float $total = 0;
     private array $discounts = [];
     private string $currency;
+    private bool $includeOffers;
 
     public function __construct($productNames)
     {
         $this->productNames = $productNames;
         $this->products = App::get()->productsService->productsToArray();
         $this->currency = isset(app()->config['default_currency']) ? app()->config['default_currency'] : 'USD';
+        $this->includeOffers = isset(app()->config['include_offers']) ? app()->config['include_offers'] : false;
     }
 
     public function prepare()
@@ -35,7 +37,9 @@ class Cart
     {
         $this->calculateSubTotal();
         $this->calculateTax();
-        $this->calculateTotalDiscounts();
+        if ($this->includeOffers) {
+            $this->calculateTotalDiscounts();
+        }
         $this->calculateTotal();
         return $this;
     }

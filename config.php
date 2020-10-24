@@ -5,5 +5,6 @@ return [
     'available_offers' => [
         \App\Offers\ProductDiscount::class,
         \App\Offers\BuyXItemsGetPercentOffItem::class
-    ]
+    ],
+    'include_offers' => false
 ];
